@@ -4,7 +4,12 @@ import urllib.request
 from http.client import HTTPSConnection
 from base64 import b64encode
 
+# Configuration (user changeable)
 username = "justintime50"
+page = "1"
+per_page = "100" # must be <=100 per Github's API limits
+affiliation = "owner" # owner, collaborator, organization_member OR use all three separated by commas
+visibility = "all" # all, public, private
 
 # Build the authentication header
 password = getpass.getpass(prompt="Token: ")
@@ -14,8 +19,8 @@ headers = {'Authorization': 'Basic %s' %  b64userpassword,
             'User-Agent': 'request'}
 
 # Grab repos
-# TODO: allow for multiple pages (over 100 results)
-url = "/user/repos?page=1&per_page=100&affiliation=owner"
+# TODO: allow for multiple pages (over 100 results) by iterating here
+url = (f"/user/repos?page={page}&per_page={per_page}&affiliation={affiliation}&visibility={visibility}")
 conn.request('GET', url, headers=headers)
 res = conn.getresponse()
 print(res.status, res.reason)
@@ -31,8 +36,9 @@ for repo in repos:
     res_str = res.read()
     langs = json.loads(res_str)
 
-    t = sum(langs.values())
+    # Get language percentage
+    total = sum(langs.values())
     percentages = {}
-    for k, v in langs.items():
-        percentages[k] = (v / t) * 100
-    print(name, langs)
+    for key, value in langs.items():
+        percentages[key] = round((value / total) * 100, 2)
+    print(name, percentages) # TODO: Add percentage sign
