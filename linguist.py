@@ -1,44 +1,44 @@
-import getpass 
-import json
-import urllib.request
-from http.client import HTTPSConnection
-from base64 import b64encode
+""" View the language breakdown of your entire GitHub account. """
+from collections import Counter
+from github import Github
+import matplotlib.pyplot as plotter
 
-# Configuration (user changeable)
-username = "justintime50"
-page = "1"
-per_page = "100" # must be <=100 per Github's API limits
-affiliation = "owner" # owner, collaborator, organization_member OR use all three separated by commas
-visibility = "all" # all, public, private
+# Configure your settings
+G = Github("") # Your GitHub token
+REPO_TYPE = "owner" # OPTIONS: all, owner, member, private, public
 
-# Build the authentication header
-password = getpass.getpass(prompt="Token: ")
-conn = HTTPSConnection("api.github.com")
-b64userpassword = b64encode(bytes(username + ":" + password, encoding='ascii')).decode("ascii")
-headers = {'Authorization': 'Basic %s' %  b64userpassword,
-            'User-Agent': 'request'}
+# Setup some variables
+BYTES = Counter()
+U = G.get_user()
 
-# Grab repos
-# TODO: allow for multiple pages (over 100 results) by iterating here
-url = (f"/user/repos?page={page}&per_page={per_page}&affiliation={affiliation}&visibility={visibility}")
-conn.request('GET', url, headers=headers)
-res = conn.getresponse()
-print(res.status, res.reason)
-res_str = res.read()
-repos = json.loads(res_str)
+# Grab all the user's repos and their data
+print(f"Gathering data about {U.login}'s repos...")
+for repo in G.get_user().get_repos(type=REPO_TYPE):
+    if not repo.fork: # Disregard forks
+        BYTES.update(repo.get_languages())
+        total = sum(repo.get_languages().values()) # needs values only here
+        percentages = {}
+        for key, value in repo.get_languages().items():
+            percentages[key] = round((value / total) * 100, 2)
+        print(repo.name, percentages) # TODO: Add percentage sign # pylint: disable=fixme
 
-# Grab languages and print
-for repo in repos:
-    name = repo["name"]
-    langs_url = repo['languages_url'].replace('https://api.github.com', '')
-    conn.request('GET', langs_url, headers=headers)
-    res = conn.getresponse()
-    res_str = res.read()
-    langs = json.loads(res_str)
+# Do some math and break out languages into percentages
+TOTAL = sum(BYTES.values())
+PERCENTAGES = {}
+for key, value in BYTES.items():
+    PERCENTAGES[key] = round((value / TOTAL) * 100, 2)
+print("\nOverall language breakdown:\n")
+print(PERCENTAGES) # TODO: Add percentage sign # pylint: disable=fixme
 
-    # Get language percentage
-    total = sum(langs.values())
-    percentages = {}
-    for key, value in langs.items():
-        percentages[key] = round((value / total) * 100, 2)
-    print(name, percentages) # TODO: Add percentage sign
+# Draw and open the pie chart
+print("\nOpening graph...")
+FIGUREOBJECT, AXESOBJECT = plotter.subplots()
+AXESOBJECT.pie(
+    PERCENTAGES.values(),
+    labels=PERCENTAGES.keys(),
+    autopct='%1.2f',
+    startangle=90)
+AXESOBJECT.axis('equal')
+plotter.tight_layout()
+plotter.legend(loc="upper left")
+plotter.show()
