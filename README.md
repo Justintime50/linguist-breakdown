@@ -18,15 +18,15 @@ Linguist can return the language breakdown of your personal repos or all repos y
 ## Install
 
 ```bash
-pip install -r requirements.txt
+pip3 install -r requirements.txt
 ```
 
 ## Usage
 
-Add your GitHub token to the `G` variable in the `linguist.py` file and run the following command:
+Pass your GitHub Token to the script.
 
 ```bash
-python linguist.py
+TOKEN=123... python3 linguist.py
 ```
 
 The repos you'd like to include can be configured by changing the `REPO_TYPE` variable in the `linguist.py` file.

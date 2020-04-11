@@ -2,18 +2,17 @@
 from collections import Counter
 from github import Github
 import matplotlib.pyplot as plotter
+import os
 
-# Configure your settings
-G = Github("") # Your GitHub token
+# Define some variables
+GITHUB = Github(os.getenv("TOKEN")) # Your GitHub token
 REPO_TYPE = "owner" # OPTIONS: all, owner, member, private, public
-
-# Setup some variables
 BYTES = Counter()
-U = G.get_user()
+USER = GITHUB.get_user()
 
 # Grab all the user's repos and their data
-print(f"Gathering data about {U.login}'s repos...")
-for repo in G.get_user().get_repos(type=REPO_TYPE):
+print(f"Gathering data about {USER.login}'s repos...")
+for repo in GITHUB.get_user().get_repos(type=REPO_TYPE):
     if not repo.fork: # Disregard forks
         BYTES.update(repo.get_languages())
         total = sum(repo.get_languages().values()) # needs values only here
