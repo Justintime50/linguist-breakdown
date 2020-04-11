@@ -1,8 +1,8 @@
 """ View the language breakdown of your entire GitHub account. """
 from collections import Counter
+import os
 from github import Github
 import matplotlib.pyplot as plotter
-import os
 
 # Define some variables
 GITHUB = Github(os.getenv("TOKEN")) # Your GitHub token
