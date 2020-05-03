@@ -4,7 +4,7 @@
 
 View the language breakdown of your entire GitHub account.
 
-[![Build Status](https://travis-ci.org/Justintime50/linguist.svg?branch=master)](https://travis-ci.org/Justintime50/linguist)
+[![Build Status](https://travis-ci.com/Justintime50/linguist.svg?branch=master)](https://travis-ci.com/Justintime50/linguist)
 [![MIT Licence](https://badges.frapsoft.com/os/mit/mit.svg?v=103)](https://opensource.org/licenses/mit-license.php)
 
 <img src="assets/showcase.png">
