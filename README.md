@@ -11,14 +11,16 @@ View the language breakdown of your entire GitHub account.
 
 </div>
 
-GitHub displays beautiful language breakdowns on each repo on their platform; however, they do not show your entire language breakdown anywhere.
+GitHub displays beautiful language breakdowns on each repo on their website; however, they do not show your entire language breakdown across all your projects.
 
-Linguist can return the language breakdown of your personal repos or all repos you have access to individually via the command line, then Linguist will build a customized pie chart breakdown of your overall language usage across all repos. Configure some settings and quickly find out what languages you use the most!
+Linguist can return the language breakdown of your personal repos or all repos you have access to individually via the command line, then Linguist will build a customized pie chart breakdown of your overall language usage across all repos (limited to the top 8 for clarity; all languages are returned via CLI). Configure some settings and quickly find out what languages you use the most!
 
 ## Install
 
 ```bash
-pip3 install -r requirements.txt
+git clone https://github.com/Justintime50/linguist.git
+
+pip3 install -e ."[dev]"
 ```
 
 ## Usage
@@ -26,7 +28,21 @@ pip3 install -r requirements.txt
 Pass your GitHub Token to the script.
 
 ```bash
-TOKEN=123... python3 linguist.py
+TOKEN=123... python3 app.py
 ```
 
 The repos you'd like to include can be configured by changing the `REPO_TYPE` variable in the `linguist.py` file.
+
+## Development
+
+Install project with dev depencencies:
+
+```bash
+pip3 install -e ."[dev]"
+```
+
+Lint the project:
+
+```bash
+pylint linguist/*.py
+```
