@@ -25,11 +25,11 @@ pip3 install linguist-breakdown
 
 ```
 Usage:
-    GITHUB_TOKEN=123... linguist --type owner --pieces 8 --forks
+    GITHUB_TOKEN=123... linguist --type private --pieces 4 --forks
 
-Options
-    -t, --type TYPE         The repo type to look at (OPTIONS: all, owner, member, private, public).
-    -p, --pieces PIECES     Number of chart pieces of the chart to generate (will use greatest percentages).
+Options:
+    -t, --type TYPE         The repo type to look at (OPTIONS: all, owner, member, private, public. Default: owner).
+    -p, --pieces PIECES     Number of pieces of the chart to generate (Default: 8).
     -f, --forks             Include forked repos in the language breakdown.
 
 TYPE expects a string option listed above.
