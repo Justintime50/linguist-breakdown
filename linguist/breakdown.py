@@ -4,16 +4,25 @@ import os
 import time
 import json
 from threading import Thread
+import argparse
 from github import Github
 import matplotlib.pyplot as plotter
 
-# Define some variables
-GITHUB = Github(os.getenv("TOKEN"))  # Your GitHub token
-REPO_TYPE = "owner"  # OPTIONS: all, owner, member, private, public
-BYTES = Counter()
+# Setup arguments
+parser = argparse.ArgumentParser(
+    description='View the language breakdown of your entire GitHub account.')
+parser.add_argument('-t', '--type', default='owner', type=str,
+                    help='The repo type to look at (OPTIONS: all, owner, member, private, public).')
+parser.add_argument('-p', '--pieces', default=8, type=int,
+                    help='Number of chart pieces to generate (will use greatest percentages)')
+parser.add_argument('-f', '--forks', action='store_true',
+                    help='Include forked repos in the language breakdown.')
+args = parser.parse_args()
+GITHUB = Github(os.getenv('GITHUB_TOKEN'))
 USER = GITHUB.get_user()
-# Number of chart pieces to generate (will use greatest percentages )
-CHART_PIECES = 8
+REPO_TYPE = args.type
+CHART_PIECES = args.pieces
+BYTES = Counter()
 
 
 class Breakdown():
@@ -27,9 +36,10 @@ class Breakdown():
         print(f"Gathering data about {USER.login}'s repos...")
         repos = GITHUB.get_user().get_repos(type=REPO_TYPE)
         for repo in repos:
-            if not repo.fork:  # Disregard forks
-                time.sleep(0.1)
-                Thread(target=Breakdown.math, args=(repo,)).start()
+            if args.forks is False and repo.fork:
+                continue  # Disregard forks if arg not passed
+            time.sleep(0.1)
+            Thread(target=Breakdown.math, args=(repo,)).start()
 
         time.sleep(2)
         Breakdown.overall()
@@ -56,7 +66,7 @@ class Breakdown():
         print("\nOverall language breakdown:\n")
         sorted_percentages = sorted(
             percentages.items(), key=lambda x: x[1], reverse=True)
-        print(json.dumps(sorted_percentages))
+        print(json.dumps(dict(sorted_percentages), indent=4))
 
         Breakdown.chart(dict(sorted_percentages[:CHART_PIECES]))
 
@@ -74,3 +84,12 @@ class Breakdown():
         plotter.tight_layout()
         plotter.legend(loc="upper left")
         plotter.show()
+
+
+def main():
+    """Run the Linguist breakdown"""
+    Breakdown.repos()
+
+
+if __name__ == '__main__':
+    main()

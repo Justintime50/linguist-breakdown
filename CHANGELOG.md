@@ -1,5 +1,13 @@
 # CHANGELOG
 
+## v1.0.0 (2020-06-10)
+
+* Added command line arguments for repo types and chart pieces
+* Added entrypoint to allow script execution
+* Fixed overall language breakdown to pretty print in JSON format sorted highest to lowest
+* Updated usage info in README
+* Published to Pypi as first stable release
+
 ## v0.4.0 (2020-06-05)
 
 * Added setup.py and removed requirements.txt

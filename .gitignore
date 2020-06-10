@@ -1,3 +1,6 @@
 .DS_Store
 linguist.egg-info
 __pycache__
+build
+dist
+*.egg-info

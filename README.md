@@ -18,20 +18,23 @@ Linguist can return the language breakdown of your personal repos or all repos y
 ## Install
 
 ```bash
-git clone https://github.com/Justintime50/linguist.git
-
-pip3 install -e ."[dev]"
+pip3 install linguist-breakdown
 ```
 
 ## Usage
 
-Pass your GitHub Token to the script.
-
-```bash
-TOKEN=123... python3 app.py
 ```
+Usage:
+    GITHUB_TOKEN=123... linguist --type owner --pieces 8 --forks
 
-The repos you'd like to include can be configured by changing the `REPO_TYPE` variable in the `linguist.py` file.
+Options
+    -t, --type TYPE         The repo type to look at (OPTIONS: all, owner, member, private, public).
+    -p, --pieces PIECES     Number of chart pieces of the chart to generate (will use greatest percentages).
+    -f, --forks             Include forked repos in the language breakdown.
+
+TYPE expects a string option listed above.
+PIECES expects an integer. The lower the number, the more readable your graph will be.
+```
 
 ## Development
 

@@ -9,8 +9,8 @@ REQUIREMENTS = [
 ]
 
 setuptools.setup(
-    name='linguist',
-    version='0.4.0',
+    name='linguist-breakdown',
+    version='1.0.0',
     description='View the language breakdown of your entire GitHub account.',
     long_description=long_description,
     long_description_content_type="text/markdown",
@@ -27,6 +27,11 @@ setuptools.setup(
     extras_require={
         'dev': [
             'pylint >= 2.5.0',
+        ]
+    },
+    entry_points={
+        'console_scripts': [
+            'linguist=linguist.breakdown:main'
         ]
     },
     python_requires='>=3.6',
