@@ -10,4 +10,3 @@ install:
 
 script: 
     - pylint linguist/*.py
-    - pylint app.py
