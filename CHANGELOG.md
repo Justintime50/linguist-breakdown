@@ -1,5 +1,14 @@
 # CHANGELOG
 
+## v1.1.0 (2020-09-24)
+
+* Added unit tests and code coverage
+* Refactored code to use smaller units
+* Bug fixes
+* Automated releasing via Travis to PyPi
+* Added a Makefile
+* Updated documentation
+
 ## v1.0.0 (2020-06-10)
 
 * Added command line arguments for repo types and chart pieces
