@@ -10,7 +10,7 @@ REQUIREMENTS = [
 
 setuptools.setup(
     name='linguist-breakdown',
-    version='1.1.0',
+    version='1.2.0',
     description='View the language breakdown of your entire GitHub account.',
     long_description=long_description,
     long_description_content_type="text/markdown",

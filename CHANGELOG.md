@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## v1.2.0 (2020-09-24)
+
+* Added missing import to `__init__` so this could be used as an optional package
+* Added `coverage` target to Makefile
+
 ## v1.1.0 (2020-09-24)
 
 * Added unit tests and code coverage

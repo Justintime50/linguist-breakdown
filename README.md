@@ -87,6 +87,9 @@ make lint
 # Run tests
 make test
 
+# Run test coverage
+make coverage
+
 # Run the tool locally
 venv/bin/python linguist/breakdown.py --help
 ```
