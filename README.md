@@ -8,6 +8,7 @@ View the language breakdown of your entire GitHub account.
 [![Coverage Status](https://coveralls.io/repos/github/Justintime50/linguist/badge.svg?branch=master)](https://coveralls.io/github/Justintime50/linguist?branch=master)
 [![PyPi](https://img.shields.io/pypi/v/linguist-breakdown)](https://pypi.org/project/linguist-breakdown)
 [![Licence](https://img.shields.io/github/license/justintime50/linguist)](https://opensource.org/licenses/mit-license.php)
+
 <img src="assets/showcase.png">
 
 </div>
@@ -79,6 +80,7 @@ Options:
 
 ## Development
 
+```bash
 # Lint the project
 make lint
 
@@ -87,3 +89,4 @@ make test
 
 # Run the tool locally
 venv/bin/python linguist/breakdown.py --help
+```

@@ -71,19 +71,19 @@ class Linguist():
             message = 'GITHUB_TOKEN must be present to run linguist-breakdown.'
             raise ValueError(message)
         else:
-            cls.iterate_repos(forks, repo_type)
+            repos = cls.get_repos(repo_type)
+            cls.iterate_repos(forks, repos)
             overall = cls.determine_overall_breakdown(chart_pieces)
             if chart:
                 cls.generate_chart(overall[1])
         return True
 
     @classmethod
-    def iterate_repos(cls, forks, repo_type):
+    def iterate_repos(cls, forks, repos):
         """Grab all the user's repos and iterate over each to get data
         """
         thread_list = []
-        print(f"Gathering data about {USER.login}'s repos...")
-        repos = USER.get_repos(type=repo_type)
+        print('Gathering languages for each repo...')
         for repo in repos:
             if forks is False and repo.fork:
                 continue  # Disregard forks if arg not passed
@@ -92,13 +92,18 @@ class Linguist():
             )
             thread_list.append(repo_thread)
             repo_thread.start()
-
         for thread in thread_list:
             thread.join()
+
+    @classmethod
+    def get_repos(cls, repo_type):
+        """Gets all the repos of a user
+        """
+        repos = USER.get_repos(type=repo_type)
         return repos
 
     @classmethod
-    def get_languages(cls, repo):
+    def get_languages_of_repo(cls, repo):
         """Get the languages of a repo
         """
         repo_languages = repo.get_languages()
@@ -108,7 +113,7 @@ class Linguist():
     def calculate_percentages(cls, repo):
         """Logic to calculate the language usage of each repo
         """
-        languages = cls.get_languages(repo)
+        languages = cls.get_languages_of_repo(repo)
         BYTES.update(languages)
         total = sum(languages.values())
         percentages = {}
@@ -129,7 +134,7 @@ class Linguist():
         percentages = {}
         for key, value in BYTES.items():
             percentages[key] = round((value / total) * 100, 2)
-        print("\nOverall language breakdown:\n")
+        print('\nOverall language breakdown:\n')
         sorted_percentages = sorted(
             percentages.items(),
             key=lambda x: x[1],
@@ -138,14 +143,13 @@ class Linguist():
         overall_breakdown = json.dumps(dict(sorted_percentages), indent=4)
         chart_pieces = dict(sorted_percentages[:chart_pieces])
         print(overall_breakdown)
-
         return overall_breakdown, chart_pieces
 
     @classmethod
     def generate_chart(cls, percentages):
         """Draw and open a pie chart with the overall language breakdown
         """
-        print("\nOpening graph...")
+        print('\nOpening graph...')
         figure_object, axes_object = plotter.subplots()
         axes_object.pie(
             percentages.values(),
@@ -154,9 +158,8 @@ class Linguist():
             startangle=90)
         axes_object.axis('equal')
         plotter.tight_layout()
-        plotter.legend(loc="upper left")
+        plotter.legend(loc='upper left')
         plotter.show()
-        return axes_object
 
 
 def main():
