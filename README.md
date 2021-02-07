@@ -5,7 +5,7 @@
 View the language breakdown of your entire GitHub account.
 
 [![Build Status](https://github.com/Justintime50/linguist-breakdown/workflows/build/badge.svg)](https://github.com/Justintime50/linguist-breakdown/actions)
-[![Coverage Status](https://coveralls.io/repos/github/Justintime50/linguist/badge.svg?branch=main)](https://coveralls.io/github/Justintime50/linguist?branch=main)
+[![Coverage Status](https://coveralls.io/repos/github/Justintime50/linguist-breakdown/badge.svg?branch=main)](https://coveralls.io/github/Justintime50/linguist-breakdown?branch=main)
 [![PyPi](https://img.shields.io/pypi/v/linguist-breakdown)](https://pypi.org/project/linguist-breakdown)
 [![Licence](https://img.shields.io/github/license/justintime50/linguist)](https://opensource.org/licenses/mit-license.php)
 
