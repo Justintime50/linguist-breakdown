@@ -1,23 +1,23 @@
-from collections import Counter
-import os
-import json
-from threading import Thread
 import argparse
-from github import Github
-import matplotlib.pyplot as plotter
+import json
+import os
+from collections import Counter
+from threading import Thread
 
+import matplotlib.pyplot as plotter
+from github import Github
 
 GITHUB_TOKEN = os.getenv('GITHUB_TOKEN')
 USER = Github(GITHUB_TOKEN).get_user()
 BYTES = Counter()
 
 
-class LinguistCLI():
+class CLI():
     def __init__(self):
         """Setup the CLI arguments
         """
         parser = argparse.ArgumentParser(
-            description='View the language breakdown of your entire GitHub account.'  # noqa
+            description='View the language breakdown of your entire GitHub account.'
         )
         parser.add_argument(
             '-t',
@@ -25,7 +25,7 @@ class LinguistCLI():
             default='owner',
             type=str,
             required=False,
-            help='The repo type to look at (OPTIONS: all, owner, member, private, public).'  # noqa
+            help='The repo type to look at (OPTIONS: all, owner, member, private, public).'
         )
         parser.add_argument(
             '-p',
@@ -33,7 +33,7 @@ class LinguistCLI():
             default=8,
             type=int,
             required=False,
-            help='Number of chart pieces to generate (will use greatest percentages)'  # noqa
+            help='Number of chart pieces to generate (will use greatest percentages)'
         )
         parser.add_argument(
             '-f',
@@ -62,8 +62,8 @@ class LinguistCLI():
 
 
 class Linguist():
-    @classmethod
-    def run(cls, repo_type, chart_pieces, forks, chart):
+    @staticmethod
+    def run(repo_type, chart_pieces, forks, chart):
         """Run the script to get a breakdown of the language usage of each
         of your repos and the overall language usage on your account
         """
@@ -71,15 +71,15 @@ class Linguist():
             message = 'GITHUB_TOKEN must be present to run linguist-breakdown.'
             raise ValueError(message)
         else:
-            repos = cls.get_repos(repo_type)
-            cls.iterate_repos(forks, repos)
-            overall = cls.determine_overall_breakdown(chart_pieces)
+            repos = Linguist.get_repos(repo_type)
+            Linguist.iterate_repos(forks, repos)
+            overall = Linguist.determine_overall_breakdown(chart_pieces)
             if chart:
-                cls.generate_chart(overall[1])
+                Linguist.generate_chart(overall[1])
         return True
 
-    @classmethod
-    def iterate_repos(cls, forks, repos):
+    @staticmethod
+    def iterate_repos(forks, repos):
         """Grab all the user's repos and iterate over each to get data
         """
         thread_list = []
@@ -88,32 +88,32 @@ class Linguist():
             if forks is False and repo.fork:
                 continue  # Disregard forks if arg not passed
             repo_thread = Thread(
-                target=cls.calculate_percentages, args=(repo,)
+                target=Linguist.calculate_percentages, args=(repo,)
             )
             thread_list.append(repo_thread)
             repo_thread.start()
         for thread in thread_list:
             thread.join()
 
-    @classmethod
-    def get_repos(cls, repo_type):
+    @staticmethod
+    def get_repos(repo_type):
         """Gets all the repos of a user
         """
         repos = USER.get_repos(type=repo_type)
         return repos
 
-    @classmethod
-    def get_languages_of_repo(cls, repo):
+    @staticmethod
+    def get_languages_of_repo(repo):
         """Get the languages of a repo
         """
         repo_languages = repo.get_languages()
         return repo_languages
 
-    @classmethod
-    def calculate_percentages(cls, repo):
+    @staticmethod
+    def calculate_percentages(repo):
         """Logic to calculate the language usage of each repo
         """
-        languages = cls.get_languages_of_repo(repo)
+        languages = Linguist.get_languages_of_repo(repo)
         BYTES.update(languages)
         total = sum(languages.values())
         percentages = {}
@@ -125,8 +125,8 @@ class Linguist():
         print(math_output)
         return math_output
 
-    @classmethod
-    def determine_overall_breakdown(cls, chart_pieces):
+    @staticmethod
+    def determine_overall_breakdown(chart_pieces):
         """Grab all language percentages from repos, print language percentage overall
         to console
         """
@@ -145,8 +145,8 @@ class Linguist():
         print(overall_breakdown)
         return overall_breakdown, chart_pieces
 
-    @classmethod
-    def generate_chart(cls, percentages):
+    @staticmethod
+    def generate_chart(percentages):
         """Draw and open a pie chart with the overall language breakdown
         """
         print('\nOpening graph...')
@@ -163,7 +163,7 @@ class Linguist():
 
 
 def main():
-    LinguistCLI().run()
+    CLI().run()
 
 
 if __name__ == '__main__':

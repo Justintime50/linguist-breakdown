@@ -1,6 +1,6 @@
 <div align="center">
 
-# Linguist
+# Linguist Breakdown
 
 View the language breakdown of your entire GitHub account.
 
@@ -15,7 +15,7 @@ View the language breakdown of your entire GitHub account.
 
 GitHub displays beautiful language breakdowns on each repo on their website; however, they do not show your entire language breakdown across all your projects.
 
-Linguist can return the language breakdown of your personal repos or all repos you have access to individually via the command line, then Linguist will build a customized pie chart breakdown of your overall language usage across all repos (limited to the top 8 for clarity; all languages are returned via CLI). Configure some settings and quickly find out what languages you use the most!
+Linguist Breakdown can return the language breakdown of your personal repos or all repos you have access to individually via the command line, then Linguist Breakdown will build a customized pie chart breakdown of your overall language usage across all repos (limited to the top 8 for clarity; all languages are returned via CLI). Configure some settings and quickly find out what languages you use the most!
 
 **Sample Output:**
 
@@ -91,5 +91,5 @@ make test
 make coverage
 
 # Run the tool locally
-venv/bin/python linguist/breakdown.py --help
+venv/bin/python linguist_breakdown/breakdown.py --help
 ```

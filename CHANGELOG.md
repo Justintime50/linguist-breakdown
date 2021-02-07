@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## v2.0.0 (2021-02-06)
+
+* Changed name from `linguist` to `linguist-breakdown` to avoid conflict with GitHub's Linguist and to match the published name
+* Changed classmethods to staticmethods
+* Replaced Travis CI with GitHub Actions
+
 ## v1.2.0 (2020-09-24)
 
 * Added missing import to `__init__` so this could be used as an optional package

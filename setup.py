@@ -10,11 +10,11 @@ REQUIREMENTS = [
 
 setuptools.setup(
     name='linguist-breakdown',
-    version='1.2.0',
+    version='2.0.0',
     description='View the language breakdown of your entire GitHub account.',
     long_description=long_description,
     long_description_content_type="text/markdown",
-    url='http://github.com/justintime50/linguist',
+    url='http://github.com/justintime50/linguist-breakdown',
     author='Justintime50',
     license='MIT',
     packages=setuptools.find_packages(),
@@ -35,7 +35,7 @@ setuptools.setup(
     },
     entry_points={
         'console_scripts': [
-            'linguist-breakdown=linguist.breakdown:main'
+            'linguist-breakdown=linguist_breakdown.breakdown:main'
         ]
     },
     python_requires='>=3.6',

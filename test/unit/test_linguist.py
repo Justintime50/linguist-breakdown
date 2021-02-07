@@ -1,9 +1,9 @@
-import pytest
 import mock
-from linguist import breakdown
+import pytest
+from linguist_breakdown import breakdown
 
 
-@mock.patch('linguist.breakdown.GITHUB_TOKEN', None)
+@mock.patch('linguist_breakdown.breakdown.GITHUB_TOKEN', None)
 def test_run_no_github_token():
     message = 'GITHUB_TOKEN must be present to run linguist-breakdown.'
     with pytest.raises(ValueError) as error:
@@ -11,12 +11,12 @@ def test_run_no_github_token():
     assert message == str(error.value)
 
 
-@mock.patch('linguist.breakdown.GITHUB_TOKEN', '123')
-@mock.patch('linguist.breakdown.Linguist.generate_chart')
-@mock.patch('linguist.breakdown.Linguist.determine_overall_breakdown')
-@mock.patch('linguist.breakdown.Linguist.get_repos')
-@mock.patch('linguist.breakdown.Linguist.iterate_repos')
-def test_run(mock_iterate_repos, mock_overall_breakdown, mock_get_repos, mock_generate_chart):  # noqa
+@mock.patch('linguist_breakdown.breakdown.GITHUB_TOKEN', '123')
+@mock.patch('linguist_breakdown.breakdown.Linguist.generate_chart')
+@mock.patch('linguist_breakdown.breakdown.Linguist.determine_overall_breakdown')
+@mock.patch('linguist_breakdown.breakdown.Linguist.get_repos')
+@mock.patch('linguist_breakdown.breakdown.Linguist.iterate_repos')
+def test_run(mock_iterate_repos, mock_overall_breakdown, mock_get_repos, mock_generate_chart):
     result = breakdown.Linguist.run(None, None, False, True)
     mock_get_repos.assert_called_once()
     mock_iterate_repos.assert_called_once()
@@ -25,7 +25,7 @@ def test_run(mock_iterate_repos, mock_overall_breakdown, mock_get_repos, mock_ge
     assert result is True
 
 
-@mock.patch('linguist.breakdown.Linguist.calculate_percentages')
+@mock.patch('linguist_breakdown.breakdown.Linguist.calculate_percentages')
 def test_iterate_repos_no_forks(mock_percentages):
     mock_repo = mock.Mock()
     mock_repo.fork = False
@@ -34,7 +34,7 @@ def test_iterate_repos_no_forks(mock_percentages):
     mock_percentages.assert_called_once()
 
 
-@mock.patch('linguist.breakdown.Linguist.calculate_percentages')
+@mock.patch('linguist_breakdown.breakdown.Linguist.calculate_percentages')
 def test_iterate_repos_with_forks(mock_percentages):
     mock_repo = mock.Mock()
     mock_repo.fork = True
@@ -42,14 +42,14 @@ def test_iterate_repos_with_forks(mock_percentages):
     breakdown.Linguist.iterate_repos(False, mock_repos)
 
 
-@mock.patch('linguist.breakdown.USER.get_repos')
-@mock.patch('linguist.breakdown.USER')
+@mock.patch('linguist_breakdown.breakdown.USER.get_repos')
+@mock.patch('linguist_breakdown.breakdown.USER')
 def test_get_repos(mock_user, mock_get_repos):
     breakdown.Linguist.get_repos('owner')
     mock_get_repos.assert_called_once()
 
 
-@mock.patch('linguist.breakdown.Linguist.get_languages_of_repo',
+@mock.patch('linguist_breakdown.breakdown.Linguist.get_languages_of_repo',
             return_value={'Shell': 5419, 'Emacs Lisp': 2689})
 def test_calulate_percentages(mock_langs):
     mock_repo = mock.Mock()
@@ -74,7 +74,7 @@ def test_get_languages_or_repo(mock_repo, mock_get_langs):
 
 
 @mock.patch('matplotlib.pyplot.show')
-@mock.patch('linguist.breakdown.Linguist.calculate_percentages')
+@mock.patch('linguist_breakdown.breakdown.Linguist.calculate_percentages')
 def test_generate_chart(mock_percentages, mock_plotter):
     breakdown.Linguist.generate_chart(mock_percentages)
     mock_plotter.assert_called_once()
