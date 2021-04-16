@@ -13,6 +13,8 @@ View the language breakdown of your entire GitHub account.
 
 </div>
 
+This project is dated and lacks features found in more modern libraries such as [github-readme-stats](https://github.com/anuraghazra/github-readme-stats) or [metrics](https://github.com/lowlighter/metrics) and as such has been archived.
+
 GitHub displays beautiful language breakdowns on each repo on their website; however, they do not show your entire language breakdown across all your projects.
 
 Linguist Breakdown can return the language breakdown of your personal repos or all repos you have access to individually via the command line, then Linguist Breakdown will build a customized pie chart breakdown of your overall language usage across all repos (limited to the top 8 for clarity; all languages are returned via CLI). Configure some settings and quickly find out what languages you use the most!
